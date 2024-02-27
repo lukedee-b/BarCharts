@@ -1,14 +1,19 @@
 let barCharts = [];
 let data;
 let data2;
+let data3;
 let cleanData=[];
 let cleanData2=[];
+let cleanData3=[];
 let numRows;
 let numRows2;
+let numRows3;
 
 function preload(){
     data = loadTable("data/RIP.csv", "csv", "header");
     data2 = loadTable("data/Deaths.csv", "csv", "header");
+    data3 = loadTable("data/MF.csv", "csv", "header");
+
 }
 
 function setup(){
@@ -78,9 +83,9 @@ function setup(){
     barCharts.push(new HorizontalBarChart(barChart02))
 
     let barChart03 = {
-        data: cleanData,
-        xValue: "Month",
-        yValue: "VALUE",
+        data: cleanData3,
+        xValue: "Year",
+        yValues: ["Male", "Female"],
         chartWidth: 500,
         chartHeight: 361,
         xPos: 200,
@@ -93,11 +98,12 @@ function setup(){
         labelRotation: 45,
         title: "This is a test",
         xAxisTitle: "This is also a test",
-        xAxisTitle: "pee",
-        yAxisTitle: "peep",
-        title: "poo",
+        xAxisTitle: "Year",
+        yAxisTitle: "Death Cases",
+        title: "Male VS Female Deaths",
         TitleSize: 12,
         labelTextSize: 12,
+        colours: ["#6c173e","#f81eb1","#02cdb1"]
       };
   
   

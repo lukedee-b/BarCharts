@@ -193,10 +193,10 @@ constructor(obj) {
   }
 }
 
-class StackedBarChart{
-    constructor(obj){
+class StackedBarChart {
+    constructor(obj) {
         this.data = obj.data;
-        this.yValue = obj.yValue;
+        this.yValues = obj.yValues; // Array of values to stack
         this.xValue = obj.xValue;
         this.chartWidth = obj.chartWidth;
         this.chartHeight = obj.chartHeight;
@@ -208,83 +208,77 @@ class StackedBarChart{
         this.labelColour = obj.labelColour;
         this.labelRotation = obj.labelRotation;
         this.barWidth = obj.barWidth;
-        this.title = obj.title
+        this.title = obj.title;
         this.yAxisTitle = obj.yAxisTitle;
         this.xAxisTitle = obj.xAxisTitle;
-       
+        this.colours = obj.colours
     }
 
-    render(){
-        push ();
+    render() {
+        push();
 
-     
         // Chart Title
         textAlign(CENTER);
         textSize(this.titleTextSize);
         fill(this.labelColour);
-        text(this.title, (this.chartWidth/2)+this.xPos, this.yPos-(this.yPos*0.87));
+        text(this.title, (this.chartWidth/2)+this.xPos, this.yPos-(this.yPos*0.35));
 
         // xAxisTitle
         textAlign(CENTER);
         textSize(this.labelTextSize);
         fill(this.labelColour);
-        text(this.xAxisTitle, (this.chartWidth/2)+this.xPos, this.yPos+(this.yPos*0.3));
+        text(this.xAxisTitle, (this.chartWidth/2)+this.xPos, this.yPos+(this.yPos*0.1));
         
         // yAxisTitle
         textAlign(CENTER);
         textSize(this.labelTextSize);
         fill(this.labelColour);
-        text(this.yAxisTitle, (this.xPos-500)+this.yPos, this.xPos+(this.yPos*0.2));
-        
+        text(this.yAxisTitle, (this.xPos-1200)+this.yPos, this.xPos+(this.yPos*0.655));
 
-        translate (this.xPos,this.yPos);
+        translate(this.xPos, this.yPos);
         stroke(this.axisLineColour);
-        line (0,0,0,-this.chartHeight);
-        line (0,0,this.chartWidth,0);
+        line(0, 0, 0, -this.chartHeight);
+        line(0, 0, this.chartWidth, 0);
 
-        let gap = (this.chartWidth - (this.data.length * this.barWidth))/(this.data.length + 1)
+        let gap = (this.chartWidth - (this.data.length * this.barWidth)) / (this.data.length + 1);
         let labels = this.data.map(d => d[this.xValue]);
-        let scale = this.chartHeight / max(this.data.map(d=> d[this.yValue]));
-        // console.log(scale);
+        let scale = this.chartHeight / max(this.data.map(d => data3.sum(this.yValues.map(y => d[y])))); // Updated scale calculation
 
-        //this loop draws the horizontal elements bars and labels
-        push()
-        translate(gap,0);
-        for(let i=0; i<this.data.length; i++){
-            fill ("#fc4503");
-            noStroke()
-            rect (0,0,this.barWidth, -this.data[i][this.yValue] * scale);
+        // Draw stacked bars
+        for (let i = 0; i < this.data.length; i++) {
+            let y = 0; // Starting point for each stacked bar
+            for (let j = 0; j < this.yValues.length; j++) {
+                let value = this.data[i][this.yValues[j]];
+                let barHeight = value * scale;
+                fill(colours[j]); // Assuming colours is defined elsewhere
+                rect(gap + i * (this.barWidth + gap), -y, this.barWidth, -barHeight);
+                y += barHeight;
+            }
 
-            // textSize(20);
-            fill(this.labelColour)
-            noStroke()
-            textSize(this.labelTextSize)
-            textAlign(LEFT, CENTER)
-            push()
-            translate(this.barWidth/2,this.labelPadding)
-            rotate(this.labelRotation)
-
-            text (labels[i],0,0);
-            pop()
-            
-            translate(gap+this.barWidth,0);
+            // Label
+            fill(this.labelColour);
+            noStroke();
+            textSize(this.labelTextSize);
+            textAlign(LEFT, CENTER);
+            text(labels[i], (gap + i * (this.barWidth + gap)) + this.barWidth / 2, this.labelPadding);
         }
-        pop()
 
-        //this draws the vertical elements 
+        // Draw y-axis ticks and labels
         let tickGap = this.chartHeight / 5;
-        let tickValue = max(this.data.map(d=> d[this.yValue]))/5
-        for(let i=0; i<=5; i++){
-            stroke("fff")
-            line(0,-i*tickGap,-20,-i*tickGap)
+        let tickValue = max(this.data.map(d => d3.sum(this.yValues.map(y => d[y])))) / 5; // Updated tickValue calculation
+        for (let i = 0; i <= 5; i++) {
+            stroke("fff");
+            line(0, -i * tickGap, -20, -i * tickGap);
 
-            fill(this.labelColour)
-            noStroke()
-            textSize(this.labelTextSize)
-            textAlign(RIGHT, CENTER)
-            text(tickValue*i,-20,-i*tickGap)
+            fill(this.labelColour);
+            noStroke();
+            textSize(this.labelTextSize);
+            textAlign(RIGHT, CENTER);
+            text(tickValue * i, -20, -i * tickGap);
         }
 
-        pop ();
+        pop();
     }
 }
+
+
