@@ -79,13 +79,19 @@ function setup(){
       labelTextSize: 12,
     };
 
-
     barCharts.push(new HorizontalBarChart(barChart02))
 
+
+// stacked bar chart
+
+numRows3 = data3.rows.length;
+for(let i=0; i<numRows3; i++){
+    cleanData3.push(data3.rows[i].obj)
+}
     let barChart03 = {
         data: cleanData3,
-        xValue: "Year",
-        yValues: ["Male", "Female"],
+        xValue: "YEAR",
+        yValues: ["MALE", "FEMALE"],
         chartWidth: 500,
         chartHeight: 361,
         xPos: 200,
@@ -96,14 +102,11 @@ function setup(){
         labelPadding: 10,
         labelColour: "#fc4503",
         labelRotation: 45,
-        title: "This is a test",
-        xAxisTitle: "This is also a test",
         xAxisTitle: "Year",
         yAxisTitle: "Death Cases",
         title: "Male VS Female Deaths",
-        TitleSize: 12,
-        labelTextSize: 12,
-        colours: ["#6c173e","#f81eb1","#02cdb1"]
+        TitleSize: 200,
+        colours: ["#6c173e","#02cdb1"]
       };
   
   

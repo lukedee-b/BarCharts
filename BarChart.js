@@ -193,6 +193,10 @@ constructor(obj) {
   }
 }
 
+
+// Stacked Bar chart
+let colours = ["#6c173e","#02cdb1"]
+let maxSum = 4648
 class StackedBarChart {
     constructor(obj) {
         this.data = obj.data;
@@ -216,69 +220,98 @@ class StackedBarChart {
 
     render() {
         push();
-
+    
         // Chart Title
         textAlign(CENTER);
-        textSize(this.titleTextSize);
+        textSize(this.titleSize);
         fill(this.labelColour);
-        text(this.title, (this.chartWidth/2)+this.xPos, this.yPos-(this.yPos*0.35));
-
+        text(this.title, this.xPos + this.chartWidth / 2, this.yPos - this.chartHeight *1.1);
+    
         // xAxisTitle
         textAlign(CENTER);
         textSize(this.labelTextSize);
         fill(this.labelColour);
-        text(this.xAxisTitle, (this.chartWidth/2)+this.xPos, this.yPos+(this.yPos*0.1));
-        
+        text(this.xAxisTitle, this.xPos + this.chartWidth / 2, this.yPos + this.chartHeight * 0.25);
+    
         // yAxisTitle
         textAlign(CENTER);
         textSize(this.labelTextSize);
         fill(this.labelColour);
-        text(this.yAxisTitle, (this.xPos-1200)+this.yPos, this.xPos+(this.yPos*0.655));
-
+        text(this.yAxisTitle, this.xPos - 100, this.yPos - this.chartHeight / 2);
+    
         translate(this.xPos, this.yPos);
         stroke(this.axisLineColour);
         line(0, 0, 0, -this.chartHeight);
         line(0, 0, this.chartWidth, 0);
-
+    
         let gap = (this.chartWidth - (this.data.length * this.barWidth)) / (this.data.length + 1);
         let labels = this.data.map(d => d[this.xValue]);
-        let scale = this.chartHeight / max(this.data.map(d => data3.sum(this.yValues.map(y => d[y])))); // Updated scale calculation
+    
+  // Calculate the maximum value for scaling
+  let maxMaleValue = max(this.data.map(d => d["Male"]));
+        
+        // Calculate the maximum value for scaling
+        // let maxSum = 0;
+        // for (let i = 0; i < this.data.length; i++) {
+        //     let sum = 0;
+        //     for (let j = 0; j < this.yValues.length; j++) {
+        //         sum += this.data[i][this.yValues[j]];
+        //     }
+            // maxSum = max(maxSum, sum);
+            // console.log('sum', sum);
+
+        // }
+        // let scale = this.chartHeight / (max(this.data.map(d=> d[this.yValues]))/this.data.length);
+        // console.log('Max Sum:', maxSum);
+        // console.log('Scale:', scale);
+    
+// Draw bars
+for (let i = 0; i < this.data.length; i++) {
+    let value = this.data[i]["Male"];
+    let barHeight = map(value, 0, maxMaleValue, 0, this.chartHeight);
+    let xPos = gap + i * (this.barWidth + gap);
+    let yPos = 0;
+
+    fill(this.colours[0]); // Using the first colour in colours array
+    rect(xPos, yPos, this.barWidth, -barHeight);
 
         // Draw stacked bars
-        for (let i = 0; i < this.data.length; i++) {
-            let y = 0; // Starting point for each stacked bar
-            for (let j = 0; j < this.yValues.length; j++) {
-                let value = this.data[i][this.yValues[j]];
-                let barHeight = value * scale;
-                fill(colours[j]); // Assuming colours is defined elsewhere
-                rect(gap + i * (this.barWidth + gap), -y, this.barWidth, -barHeight);
-                y += barHeight;
-            }
+        // for (let i = 0; i < this.data.length; i++) {
+        //     let y = 0; // Starting point for each stacked bar
+        //     for (let j = 0; j < this.yValues.length; j++) {
+        //         let value = this.data[i][this.yValues[j]];
+        //         let barHeight = value * scale;
+        //         fill(this.colours[j]); // Use this.colours instead of colours
 
-            // Label
-            fill(this.labelColour);
-            noStroke();
-            textSize(this.labelTextSize);
-            textAlign(LEFT, CENTER);
-            text(labels[i], (gap + i * (this.barWidth + gap)) + this.barWidth / 2, this.labelPadding);
-        }
+        //         console.log('Drawing rectangle at:', gap + i * (this.barWidth + gap), 0, this.barWidth, -barHeight);
+        //         rect(0, 0, this.barWidth, -(this.data[i][this.yValues]));
+        //         y += barHeight;
+        //     }
+    
+        // Label
+        fill(this.labelColour);
+        noStroke();
+        textSize(this.labelTextSize);
+        textAlign(LEFT, CENTER);
+        text(labels[i], xPos + this.barWidth / 2, this.chartHeight + this.labelPadding - 360);
+        // }
+}
+
 
         // Draw y-axis ticks and labels
         let tickGap = this.chartHeight / 5;
-        let tickValue = max(this.data.map(d => d3.sum(this.yValues.map(y => d[y])))) / 5; // Updated tickValue calculation
+        let tickValue = max(this.data.map(d=> d[this.yValues])) / 5; // Calculate tick value based on maxSum
         for (let i = 0; i <= 5; i++) {
-            stroke("fff");
+            stroke(this.axisLineColour);
             line(0, -i * tickGap, -20, -i * tickGap);
-
+    
             fill(this.labelColour);
             noStroke();
             textSize(this.labelTextSize);
             textAlign(RIGHT, CENTER);
             text(tickValue * i, -20, -i * tickGap);
         }
-
+    
         pop();
     }
-}
-
-
+}    
