@@ -28,7 +28,7 @@ function setup(){
     xValue:"Month",
     chartWidth:500,
     chartHeight:350,
-    xPos:50,
+    xPos:150,
     yPos:400,
     axisLineColour:"#d9d9d9",
     barWidth: 10,
@@ -36,8 +36,9 @@ function setup(){
     labelPadding:10,
     labelColour:"#fc4503",
     labelRotation:45,
-    title:"this is a test",
-    xAxisTitle:"this is also a test"
+    title:"Total of Registered Deaths (From 2021-2023)",
+    xAxisTitle:"Year and Month",
+    yAxisTitle:"Death Cases",
     }
 
 
@@ -56,8 +57,8 @@ function setup(){
       yValue: "VALUE",
       chartWidth: 500,
       chartHeight: 361,
-      xPos: 1050,
-      yPos: 400,
+      xPos: 900,
+      yPos: 450,
       axisLineColour: "#d9d9d9",
       barWidth: 10,
       labelTextSize: 12,
@@ -66,15 +67,41 @@ function setup(){
       labelRotation: -45,
       title: "This is a test",
       xAxisTitle: "This is also a test",
-      xTitle: "string",
-      yTitle: "string",
-      chartTitle: "string",
-      chartTitleTextSize: 20,
-      xyTitleSize: 20,
+      xAxisTitle: "Death Cases",
+      yAxisTitle: "Year and Month",
+      title: "Total of Registered Deaths (From 2021-2023)",
+      TitleSize: 12,
+      labelTextSize: 12,
     };
 
 
     barCharts.push(new HorizontalBarChart(barChart02))
+
+    let barChart03 = {
+        data: cleanData,
+        xValue: "Month",
+        yValue: "VALUE",
+        chartWidth: 500,
+        chartHeight: 361,
+        xPos: 200,
+        yPos: 1100,
+        axisLineColour: "#d9d9d9",
+        barWidth: 10,
+        labelTextSize: 12,
+        labelPadding: 10,
+        labelColour: "#fc4503",
+        labelRotation: 45,
+        title: "This is a test",
+        xAxisTitle: "This is also a test",
+        xAxisTitle: "pee",
+        yAxisTitle: "peep",
+        title: "poo",
+        TitleSize: 12,
+        labelTextSize: 12,
+      };
+  
+  
+      barCharts.push(new StackedBarChart(barChart03))
 }
 
 

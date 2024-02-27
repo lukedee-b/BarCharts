@@ -35,11 +35,18 @@ class BarChart{
         fill(this.labelColour);
         text(this.title, (this.chartWidth/2)+this.xPos, this.yPos-(this.yPos*0.87));
 
-        // yAxisTitle
+        // xAxisTitle
         textAlign(CENTER);
         textSize(this.labelTextSize);
         fill(this.labelColour);
         text(this.xAxisTitle, (this.chartWidth/2)+this.xPos, this.yPos+(this.yPos*0.3));
+        
+        // yAxisTitle
+        textAlign(CENTER);
+        textSize(this.labelTextSize);
+        fill(this.labelColour);
+        text(this.yAxisTitle, (this.xPos-500)+this.yPos, this.xPos+(this.yPos*0.2));
+        
 
         translate (this.xPos,this.yPos);
         stroke(this.axisLineColour);
@@ -109,10 +116,10 @@ constructor(obj) {
     this.labelRotation = obj.labelRotation;
     this.barWidth = obj.barWidth;
     this.labelTextSize = obj.labelTextSize;
-    this.xTitle = obj.yTitle;
-    this.yTitle = obj.xTitle;
-    this.chartTitle = obj.chartTitle;
-    this.chartTitleTextSize = obj.chartTitleTextSize;
+    this.xAxisTitle = obj.yAxisTitle;
+    this.yAxisTitle = obj.xAxisTitle;
+    this.title = obj.title;
+    this.TitleSize = obj.TitleSize;
     this.xyTitleSize = obj.xyTitleSize;
   }
  
@@ -134,24 +141,24 @@ constructor(obj) {
     let scale = this.chartHeight / max(this.data.map((d) => d[this.yValue]));
  
     fill(this.labelColour);
-    textSize(this.chartTitleTextSize);
+    textSize(this.TitleSize);
  
     textAlign(CENTER, TOP);
     noStroke();
     textStyle(NORMAL);
-    text(this.chartTitle, this.chartWidth / 2, -this.chartHeight - 70);
+    text(this.title, this.chartWidth / 2, -this.chartHeight - 70);
  
-   
+//    x title
     fill(this.labelColour);
     textSize(this.xyTitleSize);
     noStroke();
     textAlign(CENTER, TOP);
-    text(this.xTitle, this.chartWidth / 2, 90);
- 
+    text(this.xAxisTitle, this.chartWidth / 2, 90);
+
+// y title
     push();
-    translate(-10, -this.chartHeight / 2);
-    rotate(-HALF_PI);
-    text(this.yTitle, 0, -90);
+    translate(-140, -this.chartHeight /3);
+    text(this.yAxisTitle, 0, -90);
     pop();
  
     push();
@@ -204,30 +211,31 @@ class StackedBarChart{
         this.title = obj.title
         this.yAxisTitle = obj.yAxisTitle;
         this.xAxisTitle = obj.xAxisTitle;
-        // this.maxValue = max(this.data.map(d => d[this.yValue]));
-        // this.scale = this.chartHeight / this.maxValue;
-        // this.rounding = obj.rounding;
-        // this.decimalPlaces = obj.decimalPlaces;
-
+       
     }
 
     render(){
         push ();
 
-        // rotate(89.525)
-        // translate(100,-1500)
-
+     
         // Chart Title
         textAlign(CENTER);
         textSize(this.titleTextSize);
         fill(this.labelColour);
         text(this.title, (this.chartWidth/2)+this.xPos, this.yPos-(this.yPos*0.87));
 
-        // yAxisTitle
+        // xAxisTitle
         textAlign(CENTER);
         textSize(this.labelTextSize);
         fill(this.labelColour);
         text(this.xAxisTitle, (this.chartWidth/2)+this.xPos, this.yPos+(this.yPos*0.3));
+        
+        // yAxisTitle
+        textAlign(CENTER);
+        textSize(this.labelTextSize);
+        fill(this.labelColour);
+        text(this.yAxisTitle, (this.xPos-500)+this.yPos, this.xPos+(this.yPos*0.2));
+        
 
         translate (this.xPos,this.yPos);
         stroke(this.axisLineColour);
