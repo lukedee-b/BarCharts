@@ -14,6 +14,7 @@ class BarChart {
     this.labelRotation = obj.labelRotation;
     this.barWidth = obj.barWidth;
     this.title = obj.title;
+    this.titleTextSize = obj.titleTextSize
     this.yAxisTitle = obj.yAxisTitle;
     this.xAxisTitle = obj.xAxisTitle;
   }
@@ -120,13 +121,12 @@ class HorizontalBarChart {
     this.axisLineColour = obj.axisLineColour;
     this.labelPadding = obj.labelPadding;
     this.labelColour = obj.labelColour;
-    this.labelRotation = obj.labelRotation;
     this.barWidth = obj.barWidth;
     this.labelTextSize = obj.labelTextSize;
     this.xAxisTitle = obj.yAxisTitle;
     this.yAxisTitle = obj.xAxisTitle;
     this.title = obj.title;
-    this.TitleSize = obj.TitleSize;
+    this.textTitleSize = obj.textTitleSize;
     this.xyTitleSize = obj.xyTitleSize;
   }
 
@@ -151,6 +151,7 @@ class HorizontalBarChart {
 
     //title
     textAlign(CENTER, TOP);
+    textSize(this.titleTextSize);
     noStroke();
     textStyle(NORMAL);
     text(this.title, this.chartWidth / 2, -this.chartHeight - 70);
@@ -267,16 +268,20 @@ class StackedBarChart {
     for (let i = 0; i < this.data.length; i++) {
       let sum = 0;
       for (let j = 0; j < this.yValues.length; j++) {
-        sum += this.data[i][this.yValues[j]];
+        console.log("Y value is :" + this.data[i][this.yValues[j]])
+        sum += parseInt(this.data[i][this.yValues[j]]);
+     
       }
       maxSum = max(maxSum, sum);
       console.log("sum", sum);
+  
     }
-    let scale =
-      this.chartHeight /
-      (max(this.data.map((d) => d[this.yValues])) / this.data.length); // is supposed to scale the chart
+
+    
     console.log("Max Sum:", maxSum);
-    console.log("Scale:", scale);
+    // console.log("Scale:", scale);
+
+    let scale = this.chartHeight / maxSum;
 
     // Draw stacked bars
     for (let i = 0; i < this.data.length; i++) {
@@ -284,14 +289,12 @@ class StackedBarChart {
       let y = 0; // Starting point for each stacked bar
       for (let j = 0; j < this.yValues.length; j++) {
         // j refers to the Female
-        let value = this.data[i][this.yValues[j]];
+        let value = parseInt(this.data[i][this.yValues[j]]);
         let barHeight = value * scale;
-        fill(this.colours[1]); // this calls the second colour
+        fill(this.colours[j]); // this calls the second colour
 
-        console.log("Drawing rectangle at:",
-          gap + i * (this.barWidth + gap),0,this.barWidth,-barHeight
-        ); // shows us where each bar is being placed
-        rect(0, 0, this.barWidth, -this.data[i][this.yValues]);
+        // console.log("Drawing rectangle at:",gap + i * (this.barWidth + gap),0,this.barWidth,-barHeight); // shows us where each bar is being placed
+        rect(gap + i * (this.barWidth + gap), -y, this.barWidth, -barHeight);
         y += barHeight;
       }
 
@@ -303,16 +306,18 @@ class StackedBarChart {
       text(
         labels[i],
         gap + i * (this.barWidth + gap) + this.barWidth / 2,
-        this.chartHeight + this.labelPadding - 360
+        this.labelPadding
       );
     }
 
     // Draw y-axis ticks
     let tickGap = this.chartHeight / 5;
-    let tickValue = max(this.data.map((d) => d[this.yValues])) / 5; // Calculate tick value based on maxSum
+    let tickValue = Math.round(maxSum / 5);
+  
+   
     for (let i = 0; i <= 5; i++) {
       stroke(this.axisLineColour);
-      line(0, -i * tickGap, -20, -i * tickGap);
+      line(-10, -i * tickGap, 0, -i * tickGap);
 
       fill(this.labelColour);
       noStroke();

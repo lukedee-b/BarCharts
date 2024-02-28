@@ -39,16 +39,17 @@ function setup() {
     data: cleanData,
     yValue: "VALUE",
     xValue: "Month",
-    chartWidth: 500,
+    chartWidth: 650,
     chartHeight: 350,
     xPos: 150,
     yPos: 400,
     axisLineColour: "#d9d9d9",
     barWidth: 10,
-    labelTextSize: 12,
-    labelPadding: 10,
-    labelColour: "#fc4503",
+    labelTextSize: 15,
+    labelPadding: 12,
+    labelColour: "#03BAFC",
     labelRotation: 45,
+    titleTextSize: 20,
     title: "Total of Registered Deaths (From 2021-2023)",
     xAxisTitle: "Year and Month",
     yAxisTitle: "Death Cases",
@@ -66,16 +67,17 @@ function setup() {
     data: cleanData4,
     yValue: "VALUE",
     xValue: "Month",
-    chartWidth: 500,
+    chartWidth: 650,
     chartHeight: 350,
-    xPos: 900,
+    xPos: 1050,
     yPos: 400,
     axisLineColour: "#d9d9d9",
     barWidth: 10,
-    labelTextSize: 12,
-    labelPadding: 10,
-    labelColour: "#fc4503",
+    labelTextSize: 15,
+    labelPadding: 12,
+    labelColour: "#03BAFC",
     labelRotation: 45,
+    titleTextSize: 20,
     title: "Male Registered Deaths from 2019-2021",
     xAxisTitle: "Year and Month",
     yAxisTitle: "",
@@ -84,7 +86,7 @@ function setup() {
   barCharts.push(new BarChart(barChart04));
 
 
-// horizontal bar chart 
+// second horizontal bar chart 
   numRows2 = data.rows.length;
   for (let i = 0; i < numRows; i++) {
     cleanData2.push(data.rows[i].obj);
@@ -100,21 +102,21 @@ function setup() {
     yPos: 1100,
     axisLineColour: "#d9d9d9",
     barWidth: 10,
-    labelTextSize: 12,
-    labelPadding: 10,
-    labelColour: "#fc4503",
-    labelRotation: -45,
-    title: "This is a test",
+    // labelTextSize: 20,
+    // labelPadding: 10,
+    labelColour: "#03BAFC",
+    titleTextSize: 200,
+    // xyTitleSize: ,
     xAxisTitle: "Year and Month",
     yAxisTitle: "Death Cases",
     title: "Total of Registered Deaths (From 2021-2023)",
-    TitleSize: 12,
+    textTitleSize: 20,
     labelTextSize: 12,
   };
 
   barCharts.push(new HorizontalBarChart(barChart02));
 
-//  second horizontal bar chart 
+//  first horizontal bar chart 
 numRows5 = data5.rows.length;
 for (let i = 0; i < numRows5; i++) {
   cleanData5.push(data5.rows[i].obj);
@@ -132,7 +134,7 @@ let barChart05 = {
   barWidth: 10,
   labelTextSize: 12,
   labelPadding: 10,
-  labelColour: "#fc4503",
+  labelColour: "#03BAFC",
   labelRotation: -45,
   title: "This is a test",
   xAxisTitle: "Year and Month",
@@ -155,7 +157,7 @@ let barChart05 = {
     data: cleanData3,
     xValue: "YEAR",
     yValues: ["MALE", "FEMALE"],
-    chartWidth: 500,
+    chartWidth: 550,
     chartHeight: 361,
     xPos: 200,
     yPos: 1700,
@@ -164,11 +166,10 @@ let barChart05 = {
     labelTextSize: 12,
     labelPadding: 10,
     labelColour: "#fc4503",
-    labelRotation: 45,
     xAxisTitle: "Year",
     yAxisTitle: "Death Cases",
     title: "Male VS Female Deaths",
-    TitleSize: 200,
+    TitleSize: 20,
     colours: ["#6c173e", "#02cdb1"],
   };
 
