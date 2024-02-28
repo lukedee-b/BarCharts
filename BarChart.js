@@ -16,10 +16,6 @@ class BarChart{
         this.title = obj.title
         this.yAxisTitle = obj.yAxisTitle;
         this.xAxisTitle = obj.xAxisTitle;
-        // this.maxValue = max(this.data.map(d => d[this.yValue]));
-        // this.scale = this.chartHeight / this.maxValue;
-        // this.rounding = obj.rounding;
-        // this.decimalPlaces = obj.decimalPlaces;
 
     }
 
@@ -48,14 +44,14 @@ class BarChart{
         text(this.yAxisTitle, (this.xPos-500)+this.yPos, this.xPos+(this.yPos*0.2));
         
 
-        translate (this.xPos,this.yPos);
+        translate (this.xPos,this.yPos);  // sets up where 0,0 is 
         stroke(this.axisLineColour);
         line (0,0,0,-this.chartHeight);
         line (0,0,this.chartWidth,0);
 
-        let gap = (this.chartWidth - (this.data.length * this.barWidth))/(this.data.length + 1)
-        let labels = this.data.map(d => d[this.xValue]);
-        let scale = this.chartHeight / max(this.data.map(d=> d[this.yValue]));
+        let gap = (this.chartWidth - (this.data.length * this.barWidth))/(this.data.length + 1) // sets up the gaps
+        let labels = this.data.map(d => d[this.xValue]); // maps out the data
+        let scale = this.chartHeight / max(this.data.map(d=> d[this.yValue])); // scales the height
         // console.log(scale);
 
         //this loop draws the horizontal elements bars and labels
@@ -83,7 +79,7 @@ class BarChart{
         pop()
 
         //this draws the vertical elements 
-        let tickGap = this.chartHeight / 5;
+        let tickGap = this.chartHeight / 5; // splits the y axis into 5 different sections
         let tickValue = max(this.data.map(d=> d[this.yValue]))/5
         for(let i=0; i<=5; i++){
             stroke("fff")
@@ -133,16 +129,15 @@ constructor(obj) {
     line(0, 0, 0, -this.chartHeight);
  
     let gap =
-      ((this.chartWidth - this.data.length * this.barWidth) /
-        this.data.length) * 1.8;
+      ((this.chartWidth - this.data.length * this.barWidth) /this.data.length) * 1.8;
    
- 
     let labels = this.data.map((d) => d[this.xValue]);
-    let scale = this.chartHeight / max(this.data.map((d) => d[this.yValue]));
+    let scale = this.chartWidth / max(this.data.map((d) => d[this.yValue]));
  
     fill(this.labelColour);
     textSize(this.TitleSize);
  
+    //title
     textAlign(CENTER, TOP);
     noStroke();
     textStyle(NORMAL);
@@ -166,7 +161,7 @@ constructor(obj) {
     for (let i = 0; i < this.data.length; i++) {
       fill("#fc4503");
       noStroke();
-      rect(0, i * gap, this.data[i][this.yValue] * scale, this.barWidth);
+      rect(0, i * gap, this.data[i][this.yValue] * scale, this.barWidth); // draws the bar
  
       fill(this.labelColour);
       textSize(this.labelTextSize);
@@ -178,6 +173,7 @@ constructor(obj) {
     let tickGap = this.chartWidth / 5;
     let tickValue = max(this.data.map((d) => d[this.yValue])) / 5;
  
+    // labels the x axis
     for (let i = 0; i <= 5; i++) {
       stroke(255);
       line(i * tickGap, 0, i * tickGap, 20);
@@ -186,17 +182,12 @@ constructor(obj) {
       fill(this.labelColour);
       textAlign(CENTER, TOP);
       text(round(tickValue * i), i * tickGap, 25);
- 
-     
     }
     pop();
   }
 }
 
 
-// Stacked Bar chart
-let colours = ["#6c173e","#02cdb1"]
-let maxSum = 4648
 class StackedBarChart {
     constructor(obj) {
         this.data = obj.data;
@@ -225,80 +216,68 @@ class StackedBarChart {
         textAlign(CENTER);
         textSize(this.titleSize);
         fill(this.labelColour);
-        text(this.title, this.xPos + this.chartWidth / 2, this.yPos - this.chartHeight *1.1);
+        text(this.title, this.xPos + this.chartWidth / 2, this.yPos - this.chartHeight *1.1); // positions the chart title
     
         // xAxisTitle
         textAlign(CENTER);
         textSize(this.labelTextSize);
         fill(this.labelColour);
-        text(this.xAxisTitle, this.xPos + this.chartWidth / 2, this.yPos + this.chartHeight * 0.25);
+        text(this.xAxisTitle, this.xPos + this.chartWidth / 2, this.yPos + this.chartHeight * 0.25); // positions the x axis title
     
         // yAxisTitle
         textAlign(CENTER);
         textSize(this.labelTextSize);
         fill(this.labelColour);
-        text(this.yAxisTitle, this.xPos - 100, this.yPos - this.chartHeight / 2);
+        text(this.yAxisTitle, this.xPos - 100, this.yPos - this.chartHeight / 2); // positions the y axis title
     
+        // this sets up the graph lines
         translate(this.xPos, this.yPos);
         stroke(this.axisLineColour);
         line(0, 0, 0, -this.chartHeight);
         line(0, 0, this.chartWidth, 0);
     
-        let gap = (this.chartWidth - (this.data.length * this.barWidth)) / (this.data.length + 1);
+        let gap = (this.chartWidth - (this.data.length * this.barWidth)) / (this.data.length + 1); // decides how big and where to put the gaps
         let labels = this.data.map(d => d[this.xValue]);
     
-  // Calculate the maximum value for scaling
-  let maxMaleValue = max(this.data.map(d => d["Male"]));
+
         
         // Calculate the maximum value for scaling
-        // let maxSum = 0;
-        // for (let i = 0; i < this.data.length; i++) {
-        //     let sum = 0;
-        //     for (let j = 0; j < this.yValues.length; j++) {
-        //         sum += this.data[i][this.yValues[j]];
-        //     }
-            // maxSum = max(maxSum, sum);
-            // console.log('sum', sum);
+        let maxSum = 0; //Max sum is supposed to be the maximum amount that male and female can combine to which should be 4648
+        for (let i = 0; i < this.data.length; i++) {
+            let sum = 0;
+            for (let j = 0; j < this.yValues.length; j++) {
+                sum += this.data[i][this.yValues[j]];
+            }
+            maxSum = max(maxSum, sum);
+            console.log('sum', sum);
 
-        // }
-        // let scale = this.chartHeight / (max(this.data.map(d=> d[this.yValues]))/this.data.length);
-        // console.log('Max Sum:', maxSum);
-        // console.log('Scale:', scale);
+        }
+        let scale = this.chartHeight / (max(this.data.map(d=> d[this.yValues]))/this.data.length); // is supposed to scale the chart 
+        console.log('Max Sum:', maxSum); 
+        console.log('Scale:', scale);
     
-// Draw bars
-for (let i = 0; i < this.data.length; i++) {
-    let value = this.data[i]["Male"];
-    let barHeight = map(value, 0, maxMaleValue, 0, this.chartHeight);
-    let xPos = gap + i * (this.barWidth + gap);
-    let yPos = 0;
-
-    fill(this.colours[0]); // Using the first colour in colours array
-    rect(xPos, yPos, this.barWidth, -barHeight);
-
         // Draw stacked bars
-        // for (let i = 0; i < this.data.length; i++) {
-        //     let y = 0; // Starting point for each stacked bar
-        //     for (let j = 0; j < this.yValues.length; j++) {
-        //         let value = this.data[i][this.yValues[j]];
-        //         let barHeight = value * scale;
-        //         fill(this.colours[j]); // Use this.colours instead of colours
+        for (let i = 0; i < this.data.length; i++) { // i refers to the Male deaths
+            let y = 0; // Starting point for each stacked bar
+            for (let j = 0; j < this.yValues.length; j++) { // j refers to the Female
+                let value = this.data[i][this.yValues[j]];
+                let barHeight = value * scale;
+                fill(this.colours[1]); // this calls the second colour
 
-        //         console.log('Drawing rectangle at:', gap + i * (this.barWidth + gap), 0, this.barWidth, -barHeight);
-        //         rect(0, 0, this.barWidth, -(this.data[i][this.yValues]));
-        //         y += barHeight;
-        //     }
+                console.log('Drawing rectangle at:', gap + i * (this.barWidth + gap), 0, this.barWidth, -barHeight); // shows us where each bar is being placed
+                rect(0, 0, this.barWidth, -(this.data[i][this.yValues]));
+                y += barHeight;
+            }
     
-        // Label
-        fill(this.labelColour);
-        noStroke();
-        textSize(this.labelTextSize);
-        textAlign(LEFT, CENTER);
-        text(labels[i], xPos + this.barWidth / 2, this.chartHeight + this.labelPadding - 360);
-        // }
-}
-
-
-        // Draw y-axis ticks and labels
+            // x axis Label
+            fill(this.labelColour);
+            noStroke();
+            textSize(this.labelTextSize);
+            textAlign(LEFT, CENTER);
+            text(labels[i], (gap + i * (this.barWidth + gap)) + this.barWidth / 2, this.chartHeight + this.labelPadding -360);
+        }
+    
+        // Draw y-axis ticks
         let tickGap = this.chartHeight / 5;
         let tickValue = max(this.data.map(d=> d[this.yValues])) / 5; // Calculate tick value based on maxSum
         for (let i = 0; i <= 5; i++) {
